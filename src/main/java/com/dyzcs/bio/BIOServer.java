@@ -32,15 +32,18 @@ public class BIOServer {
     public static void handler(Socket socket) {
         InputStream is = null;
         try {
+            System.out.println("开始" + Thread.currentThread().getId() + " " + Thread.currentThread().getName());
             is = socket.getInputStream();
             byte[] buffer = new byte[1024];
             int len;
             while ((len = is.read(buffer)) != -1) {
+                System.out.print(Thread.currentThread().getName());
                 System.out.println(new String(buffer, 0, len));
             }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            System.out.println("开始" + Thread.currentThread().getId() + " " + Thread.currentThread().getName() + " 关闭");
             try {
                 socket.close();
             } catch (IOException e) {
