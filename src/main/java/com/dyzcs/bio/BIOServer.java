@@ -23,7 +23,6 @@ public class BIOServer {
                 System.out.println("连接到一个客户端");
                 threadPool.execute(() -> handler(accept));
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -43,7 +42,7 @@ public class BIOServer {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            System.out.println("开始" + Thread.currentThread().getId() + " " + Thread.currentThread().getName() + " 关闭");
+            System.out.println(Thread.currentThread().getId() + " " + Thread.currentThread().getName() + "关闭");
             try {
                 socket.close();
             } catch (IOException e) {
