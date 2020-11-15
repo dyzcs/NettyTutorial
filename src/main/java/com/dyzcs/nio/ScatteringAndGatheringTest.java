@@ -2,6 +2,7 @@ package com.dyzcs.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
@@ -41,6 +42,21 @@ public class ScatteringAndGatheringTest {
                     // 使用流答应，当前buffer的position和limit
                     Arrays.stream(byteBuffers).map(buffer -> "position=" + buffer.position() + ", limit=" + buffer.limit()).forEach(System.out::println);
                 }
+
+                // 将所有的buffer进行翻转
+                Arrays.stream(byteBuffers).forEach(Buffer::flip);
+
+                // 将数据读出显示到客户端
+                long byteWrite = 0;
+                while (byteWrite < messageLength) {
+                    long l = socketChannel.write(byteBuffers);
+                    byteWrite += l;
+                }
+
+                // 将所有的buffer进行复位操作
+                Arrays.stream(byteBuffers).forEach(Buffer::clear);
+
+                System.out.println("byteRead=" + byteRead + " byteWrite=" + byteWrite + " messageLength=" + messageLength);
             }
         } catch (IOException e) {
             e.printStackTrace();
