@@ -51,8 +51,20 @@ public class NIOServer {
                         // 将当前socketChannel注册到selector，关注事件为OP_READ
                         // 同时给socketChannel关联一个Buffer
                         socketChannel.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
-                        
                     }
+                    // 发生OP_READ
+                    if (key.isReadable()) {
+                        // 通知key，反向获取channel
+                        SocketChannel channel = (SocketChannel) key.channel();
+                        // 获取到该channel关联的buffer
+                        ByteBuffer buffer = (ByteBuffer) key.attachment();
+                        // 将当前channel数据读入buffer
+                        channel.read(buffer);
+                        System.out.println("from 客户端 " + new String(buffer.array()));
+                    }
+
+                    // 手动从集合中移除当前的selectionKey，防止重复操作
+                    keyIterator.remove();
                 }
             }
         } catch (IOException e) {
