@@ -18,7 +18,7 @@ public class ScatteringAndGatheringTest {
     public static void main(String[] args) {
         try {
             ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-            InetSocketAddress inetSocketAddress = new InetSocketAddress(7000);
+            InetSocketAddress inetSocketAddress = new InetSocketAddress(9999);
 
             // 绑定端口到socket并启动
             serverSocketChannel.socket().bind(inetSocketAddress);
