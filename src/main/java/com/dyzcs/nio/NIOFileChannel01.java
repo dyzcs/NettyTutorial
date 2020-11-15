@@ -14,7 +14,7 @@ public class NIOFileChannel01 {
         String str = "hello, 中国";
         FileChannel fileChannel = null;
         try {
-            FileOutputStream fos = new FileOutputStream("output/file01.txt");
+            FileOutputStream fos = new FileOutputStream("data/file01.txt");
             // 通过输出流获取对应的文件channel
             // fileChannel真是类型是FileChannelImpl
             fileChannel = fos.getChannel();
