@@ -19,7 +19,7 @@ public class MappedByteBufferTest {
             FileChannel channel = raf.getChannel();
             // 参数1 FileChannel.MapMode.READ_WRITE 使用读写模式
             // 参数2 0 可以直接修改的其实位置
-            // 参数3 5 映射到内存的大小，即将1.txt的多少个字节映射到内存
+            // 参数3 5 映射到内存的大小(不是索引位置)，即将1.txt的多少个字节映射到内存
             // 即可以直接修改的范围就是[0, 5)
             MappedByteBuffer mbb = channel.map(FileChannel.MapMode.READ_WRITE, 0, 5);
             mbb.put(0, (byte) 'H');
