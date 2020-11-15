@@ -1,7 +1,6 @@
 package com.dyzcs.nio.groupchat;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
@@ -25,7 +24,7 @@ public class GroupChatServer {
             // serverSocketChannel
             listenChannel = ServerSocketChannel.open();
             // 绑定端口
-            listenChannel.socket().bind(new InetSocketAddress(InetAddress.getLocalHost(), PORT));
+            listenChannel.socket().bind(new InetSocketAddress(PORT));
             // 设置非阻塞模式
             listenChannel.configureBlocking(false);
             // 将该listenChannel注册到selector
