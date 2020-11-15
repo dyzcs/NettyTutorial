@@ -12,11 +12,11 @@ import java.util.Objects;
  */
 public class NIOFileChannel02 {
     public static void main(String[] args) {
-        FileChannel fileChannel = null;
+        FileInputStream fis = null;
         try {
             File file = new File("data/file01.txt");
-            FileInputStream fis = new FileInputStream(file);
-            fileChannel = fis.getChannel();
+            fis = new FileInputStream(file);
+            FileChannel fileChannel = fis.getChannel();
 
             // 创建缓冲区
             ByteBuffer byteBuffer = ByteBuffer.allocate((int) file.length());
@@ -29,7 +29,7 @@ public class NIOFileChannel02 {
             e.printStackTrace();
         } finally {
             try {
-                Objects.requireNonNull(fileChannel).close();
+                Objects.requireNonNull(fis).close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

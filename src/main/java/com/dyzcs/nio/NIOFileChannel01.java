@@ -12,12 +12,12 @@ import java.util.Objects;
 public class NIOFileChannel01 {
     public static void main(String[] args) {
         String str = "hello, 中国";
-        FileChannel fileChannel = null;
+        FileOutputStream fos = null;
         try {
-            FileOutputStream fos = new FileOutputStream("data/file01.txt");
+            fos = new FileOutputStream("data/file01.txt");
             // 通过输出流获取对应的文件channel
             // fileChannel真是类型是FileChannelImpl
-            fileChannel = fos.getChannel();
+            FileChannel fileChannel = fos.getChannel();
 
             // 创建一个缓冲区byteBuffer
             ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
@@ -34,7 +34,7 @@ public class NIOFileChannel01 {
             e.printStackTrace();
         } finally {
             try {
-                Objects.requireNonNull(fileChannel).close();
+                Objects.requireNonNull(fos).close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
