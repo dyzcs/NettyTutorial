@@ -1,5 +1,6 @@
 package com.dyzcs.nio.groupchat;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -7,6 +8,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
+import java.util.Scanner;
 
 /**
  * Created by Administrator on 2020/11/15.
@@ -21,7 +23,8 @@ public class GroupChatClient {
     public GroupChatClient() throws IOException {
         selector = Selector.open();
         // 连接服务器
-        socketChannel.open(new InetSocketAddress(HOST, PORT));
+        socketChannel = socketChannel.open(new InetSocketAddress(HOST, PORT));
+        socketChannel.configureBlocking(false);
         // 将channel注册到selector
         socketChannel.register(selector, SelectionKey.OP_READ);
         // 得到username
@@ -58,12 +61,35 @@ public class GroupChatClient {
                         String msg = new String(buffer.array(), 0, buffer.position());
                         System.out.println(msg.trim());
                     }
+                    iterator.remove();
                 }
             } else {
-                System.out.println("没有可用的通道");
+//                System.out.println("没有可用的通道");
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        GroupChatClient chatClient = new GroupChatClient();
+        // 每隔三秒读取从客户端发送的数据
+        new Thread(() -> {
+            while (true) {
+                chatClient.readInfo();
+                try {
+                    Thread.sleep(3 * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        // 发送数据给服务器端
+        Scanner scanner = new Scanner(new BufferedInputStream(System.in));
+        while (scanner.hasNextLine()) {
+            String msg = scanner.nextLine();
+            chatClient.sendInfo(msg);
         }
     }
 }
