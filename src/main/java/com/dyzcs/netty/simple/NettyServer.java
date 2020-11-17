@@ -1,6 +1,7 @@
 package com.dyzcs.netty.simple;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -12,7 +13,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  * Created by Administrator on 2020/11/17.
  */
 public class NettyServer {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // 创建BossGroup和WorkerGroup
         // 1.创建两个线程组bossGroup和workerGroup
         // 2.bossGroup只是处理连接请求，真正和client业务处理，交给workerGroup处理
@@ -33,5 +34,14 @@ public class NettyServer {
                         ch.pipeline().addLast(null);
                     }
                 }); // 给WorkerGroup的EventLoop对应的管道设置处理器
+
+        System.out.println("server is ready");
+
+        // 绑定一个端口并且同步，生成了一个ChannelFuture对象
+        // 启动服务器(并绑定端口)
+        ChannelFuture cf = bootstrap.bind(6668).sync();
+
+        // 对关闭通道进行监听
+        cf.channel().closeFuture().sync();
     }
 }
