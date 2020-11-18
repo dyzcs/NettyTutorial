@@ -13,7 +13,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  * Created by Administrator on 2020/11/17.
  */
 public class NettyServer {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws Exception {
         // 创建BossGroup和WorkerGroup
         // 1.创建两个线程组bossGroup和workerGroup
         // 2.bossGroup只是处理连接请求，真正和client业务处理，交给workerGroup处理
@@ -31,7 +31,7 @@ public class NettyServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() { // 创建一个通道初始化对象
                         // 向pipeline设置处理器
                         @Override
-                        protected void initChannel(SocketChannel ch) throws Exception {
+                        protected void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(new NettyServerHandler());
                         }
                     }); // 给WorkerGroup的EventLoop对应的管道设置处理器
