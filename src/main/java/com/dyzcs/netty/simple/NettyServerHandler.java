@@ -31,7 +31,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         // writeAndFlush: 将数据写入到缓冲并刷新
         // 一般来讲，要对发送的数据进行编码
-        ctx.writeAndFlush(Unpooled.copiedBuffer("hello, client", CharsetUtil.UTF_8));
+        ctx.writeAndFlush(Unpooled.copiedBuffer("hello client", CharsetUtil.UTF_8));
     }
 
     // 处理异常，一般是要关闭通道
