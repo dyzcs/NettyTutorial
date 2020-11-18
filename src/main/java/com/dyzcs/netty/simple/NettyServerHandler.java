@@ -18,12 +18,33 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     // 2.Object msg: 就是客户端发送的数据，默认Object
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println("Server ctx = " + ctx);
+        // 耗时的业务 -> 异步执行 -> 提交该channel对应的NioEventLoop的taskQueue中
+        // 解决方案1: 用户程序自定义的普通任务
+        ctx.channel().eventLoop().execute(() -> {
+            try {
+                Thread.sleep(10 * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ctx.writeAndFlush(Unpooled.copiedBuffer("hello client 1", CharsetUtil.UTF_8));
+        });
+
+        ctx.channel().eventLoop().execute(() -> {
+            try {
+                // 和上面同一个线程
+                Thread.sleep(20 * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ctx.writeAndFlush(Unpooled.copiedBuffer("hello client 2", CharsetUtil.UTF_8));
+        });
+
+//        System.out.println("Server ctx = " + ctx);
         // 将msg转成ByteBuf
         // ByteBuf是Netty提供的
         ByteBuf buf = (ByteBuf) msg;
         System.out.println("客户端发送消息是: " + buf.toString(CharsetUtil.UTF_8));
-        System.out.println("客户端地址: " + ctx.channel().remoteAddress());
+//        System.out.println("客户端地址: " + ctx.channel().remoteAddress());
     }
 
     // 数据读取完毕
@@ -31,7 +52,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         // writeAndFlush: 将数据写入到缓冲并刷新
         // 一般来讲，要对发送的数据进行编码
-        ctx.writeAndFlush(Unpooled.copiedBuffer("hello client", CharsetUtil.UTF_8));
+        ctx.writeAndFlush(Unpooled.copiedBuffer("hello client 3", CharsetUtil.UTF_8));
     }
 
     // 处理异常，一般是要关闭通道
