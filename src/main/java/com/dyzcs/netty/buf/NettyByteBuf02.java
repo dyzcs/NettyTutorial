@@ -14,8 +14,9 @@ public class NettyByteBuf02 {
 
         // 使用相关的API
         if (buf.hasArray()) {
-            byte[] arr = buf.array();
-            System.out.println(new String(arr, CharsetUtil.UTF_8));
+            System.out.println(buf.toString());
+            System.out.println(buf.toString(CharsetUtil.UTF_8));
+            System.out.println(new String(buf.array(),0, buf.writerIndex(), CharsetUtil.UTF_8));
         }
     }
 }
