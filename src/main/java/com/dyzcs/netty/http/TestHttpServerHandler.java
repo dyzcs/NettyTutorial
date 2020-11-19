@@ -7,10 +7,12 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 
+import java.net.URI;
+
 /**
  * Created by Administrator on 2020/11/18.
  * <p>
- * 1.SimpleChannelInboundHandler是ChannelInboundHandlerAdapter子类
+ * 1.SimpleChannelInboundHandler是ChannelInboundHandlerAdapter子类<p>
  * 2.HttpObject客户端和服务器端相互通信的数据封装成HttpObject
  */
 public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
@@ -20,8 +22,18 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
     protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
         // 判断msg是不是HttpRequest请求
         if (msg instanceof HttpRequest) {
-            System.out.println("msg 类型 = " + msg.getClass());
-            System.out.println("客户端地址" + ctx.channel().remoteAddress());
+//            System.out.println("msg 类型 = " + msg.getClass());
+//            System.out.println("客户端地址" + ctx.channel().remoteAddress());
+
+            HttpRequest httpRequest = (HttpRequest) msg;
+            // 获取URI
+            URI uri = new URI(httpRequest.uri());
+            System.out.println(uri.getPath());
+
+            if ("/favicon.ico".equals(uri.getPath())) {
+                System.out.println("请求了favicon.ico，不做响应");
+                return;
+            }
 
             // 回复信息给浏览器[http协议]
             ByteBuf content = Unpooled.copiedBuffer("hello，我是服务器", CharsetUtil.UTF_8);
