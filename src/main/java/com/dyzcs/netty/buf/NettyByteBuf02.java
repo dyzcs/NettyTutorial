@@ -17,6 +17,17 @@ public class NettyByteBuf02 {
             System.out.println(buf.toString());
             System.out.println(buf.toString(CharsetUtil.UTF_8));
             System.out.println(new String(buf.array(),0, buf.writerIndex(), CharsetUtil.UTF_8));
+
+            System.out.println(buf.arrayOffset());  // 0
+            System.out.println(buf.readerIndex());  // 0
+
+            System.out.println(buf.writerIndex());  // 11
+            System.out.println(buf.readableBytes());    // 64
+
+            System.out.println(buf.capacity()); // 11
+
+            System.out.println(buf.getCharSequence(0, 4, CharsetUtil.UTF_8));
+            System.out.println(buf.getCharSequence(6, 2, CharsetUtil.UTF_8));
         }
     }
 }
