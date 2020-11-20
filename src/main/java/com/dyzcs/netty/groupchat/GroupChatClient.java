@@ -36,7 +36,7 @@ public class GroupChatClient {
                             ChannelPipeline pipeline = ch.pipeline();
                             pipeline.addLast("decoder", new StringDecoder());
                             pipeline.addLast("encoder", new StringEncoder());
-                            pipeline.addLast(null);
+                            pipeline.addLast(new GroupChatClientHandler());
                         }
                     });
 
@@ -54,6 +54,6 @@ public class GroupChatClient {
     }
 
     public static void main(String[] args) throws Exception {
-        new GroupChatClient("127.0.0.1", 7000).run();
+        new GroupChatClient("127.0.0.1", 9999).run();
     }
 }
