@@ -40,12 +40,12 @@ public class GroupChatServerHandler extends SimpleChannelInboundHandler<String> 
     // 表示channel处于活动状态，提示xx上线
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        System.out.println(ctx.channel().remoteAddress() + " 上线了\n");
+        System.out.println(ctx.channel().remoteAddress() + " 上线了");
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        System.out.println(ctx.channel().remoteAddress() + " 离线了\n");
+        System.out.println(ctx.channel().remoteAddress() + " 离线了");
     }
 
     @Override
