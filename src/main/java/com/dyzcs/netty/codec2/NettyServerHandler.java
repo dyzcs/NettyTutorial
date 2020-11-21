@@ -1,6 +1,5 @@
 package com.dyzcs.netty.codec2;
 
-import com.dyzcs.netty.codec.StudentPOJO;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -15,9 +14,19 @@ import io.netty.util.CharsetUtil;
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        // 读取从客户端发送的StudentPOJO.Student
-        StudentPOJO.Student student = (StudentPOJO.Student) msg;
-        System.out.println("客户端发送的数据 id = " + student.getId() + ", name = " + student.getName());
+        MyDataInfo.MyMessage message = (MyDataInfo.MyMessage) msg;
+        MyDataInfo.MyMessage.DataType dataType = message.getDataType();
+        if (dataType == MyDataInfo.MyMessage.DataType.TeacherType) {
+
+            MyDataInfo.Teacher teacher = message.getTeacher();
+            System.out.println("id = " + teacher.getId() + " name = " + teacher.getName());
+
+        } else if (dataType == MyDataInfo.MyMessage.DataType.WorkerType) {
+            MyDataInfo.Worker worker = message.getWorker();
+            System.out.println("id = " + worker.getName() + " age = " + worker.getAge());
+        } else {
+            System.out.println("传输的类型不正确");
+        }
     }
 
     // 数据读取完毕
