@@ -5,19 +5,19 @@ option java_outer_classname = "MyDataInfo";
 
 message MyMessage {
     enum DataType {
-        StudentType = 0;
+        TeacherType = 0;
         WorkerType = 1;
     }
 
     DataType data_type = 1;
 
     oneof dataBody {
-        Student student = 2;
+        Teacher teacher = 2;
         Worker worker = 3;
     }
 }
 
-message Student {
+message Teacher {
     int32 id = 1;
     string name = 2;
 }
