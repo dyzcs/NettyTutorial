@@ -8,13 +8,13 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 public class MyClientHandler extends SimpleChannelInboundHandler<Long> {
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Long msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, Long msg) {
         System.out.println("服务器 ip = " + ctx.channel().remoteAddress());
         System.out.println("收到服务器的消息 = " + msg);
     }
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+    public void channelActive(ChannelHandlerContext ctx) {
         System.out.println("channelActive发送数据");
         ctx.writeAndFlush(123456L);
     }

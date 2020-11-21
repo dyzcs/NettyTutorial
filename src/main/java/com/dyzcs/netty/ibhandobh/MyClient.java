@@ -17,7 +17,7 @@ public class MyClient {
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(group)
                     .channel(NioSocketChannel.class)
-                    .handler(new MyServerInitializer());
+                    .handler(new MyClientInitializer());
             ChannelFuture channelFuture = bootstrap.connect(InetAddress.getLocalHost(), 9999).sync();
             channelFuture.channel().closeFuture().sync();
 
