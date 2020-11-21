@@ -13,8 +13,9 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     // 当通道就绪就会触发该方法
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        System.out.println("client = " + ctx);
-        ctx.writeAndFlush(Unpooled.copiedBuffer("hello server", CharsetUtil.UTF_8));
+        // 发送一个Student对象到服务器
+        StudentPOJO.Student student = StudentPOJO.Student.newBuilder().setId(4).setName("宋江").build();
+        ctx.writeAndFlush(student);
     }
 
     // 当通道有读取事件时，会触发

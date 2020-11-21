@@ -5,6 +5,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
 
 /**
  * Created by Administrator on 2020/11/17.
@@ -29,7 +30,10 @@ public class NettyServer {
                         // 向pipeline设置处理器
                         @Override
                         protected void initChannel(SocketChannel ch) {
-                            ch.pipeline().addLast(new NettyServerHandler());
+                            ChannelPipeline pipeline = ch.pipeline();
+                            // 指定对哪种对象进行解码
+                            pipeline.addLast("decoder", new ProtobufDecoder(StudentPOJO.Student.getDefaultInstance()));
+                            pipeline.addLast(new NettyServerHandler());
                         }
                     }); // 给WorkerGroup的EventLoop对应的管道设置处理器
 
