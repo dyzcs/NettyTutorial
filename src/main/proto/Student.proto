@@ -1,11 +1,9 @@
-// 版本
 syntax = "proto3";
-// 生成的外部类名，同时也是文件名
+
+option java_package = "com.dyzcs.netty.codec";
 option java_outer_classname = "StudentPOJO";
-// protobuf使用message管理数据
-// 会在StudentPOJO外部生成一个内部类，Student是真正的POJO对象
+
 message Student {
-    // Student类中有一个属性，名字为id，类型为int32(int)，1表示属性序号
     int32 id = 1;
     string name = 2;
 }
