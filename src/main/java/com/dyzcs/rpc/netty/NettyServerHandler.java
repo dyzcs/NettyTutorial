@@ -1,5 +1,6 @@
 package com.dyzcs.rpc.netty;
 
+import com.dyzcs.rpc.customer.ClientBootstrap;
 import com.dyzcs.rpc.provider.HelloServiceImpl;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -14,7 +15,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         System.out.println("msg = " + msg);
         // 客户端在调用服务器的API时，需要定义协议
         // 要求: 每次发消息都要以某个字符串开头 "HelloService#hello#你好"
-        if (msg.toString().startsWith("HelloService#hello#")) {
+        if (msg.toString().startsWith(ClientBootstrap.providerName)) {
             String result = new HelloServiceImpl().hello(msg.toString().substring(msg.toString().lastIndexOf("#") + 1));
             ctx.writeAndFlush(result);
         }
