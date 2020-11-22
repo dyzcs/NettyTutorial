@@ -10,7 +10,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  */
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
         // 获取客户端发送的消息，并调用服务
         System.out.println("msg = " + msg);
         // 客户端在调用服务器的API时，需要定义协议
@@ -22,7 +22,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         ctx.close();
     }
 }
