@@ -18,20 +18,20 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
 
     // (1)与服务器连接创建后，会被调用
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+    public void channelActive(ChannelHandlerContext ctx) {
         context = ctx;
     }
 
     // (4)收到数据后，调用方法
     @Override
-    public synchronized void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public synchronized void channelRead(ChannelHandlerContext ctx, Object msg) {
         result = (String) msg;
         // 唤醒等待的线程
         notify();
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         ctx.close();
     }
 
